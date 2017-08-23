@@ -31,5 +31,19 @@ class CategoriesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             return CategoryCell()
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category = DataService.instance.getCategories()[indexPath.row]
+        performSegue(withIdentifier: "ProductsVC", sender: category)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let productsVC = segue.destination as? ProductsVC {
+            // Using assert here rather than guard because must have a category. If not there then app
+            // should crash at build time and we need to fix.
+            assert(sender as? Category != nil)
+            productsVC.initProducts(category: sender as! Category)
+        }
+    }
 }
 
