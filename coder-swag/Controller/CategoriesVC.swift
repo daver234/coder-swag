@@ -39,10 +39,15 @@ class CategoriesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let productsVC = segue.destination as? ProductsVC {
+            let barBtn = UIBarButtonItem()
+            barBtn.title = ""
+            navigationItem.backBarButtonItem = barBtn
+            
             // Using assert here rather than guard because must have a category. If not there then app
             // should crash at build time and we need to fix.
             assert(sender as? Category != nil)
             productsVC.initProducts(category: sender as! Category)
+            
         }
     }
 }
